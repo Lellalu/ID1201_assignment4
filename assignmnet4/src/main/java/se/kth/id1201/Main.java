@@ -4,6 +4,7 @@ public class Main {
     public static void main( String[] args ){
         benchmarkFixedB();
         benchmarkFixedA();
+        benchmarkArrayVsList();
     }
 
 
@@ -105,6 +106,42 @@ public class Main {
             System.out.printf("%12.2f%12.2f\n", linkedMinTime, arrayMinTime);
         }
     }
+
+    public static void benchmarkArrayVsList(){
+        long startTime;
+        long endTime;
+        int repitition = 1000;
+        float linkedMinTime;
+        float arrayMinTime;
+        int[] array_a;
+
+        LinkedList a;
+
+        System.out.printf("#Building a list and allocating an array of length n, time in ns\n");
+        System.out.printf("#%12s%12s%12s\n", "n", "linkedlist", "array");
+        for(int length = 2; length < 100000; length*=2){
+            linkedMinTime = Float.POSITIVE_INFINITY;
+            arrayMinTime = Float.POSITIVE_INFINITY;
+            for(int i = 0; i <= repitition; i++){
+                startTime = System.nanoTime();
+                a = new LinkedList(length);
+                endTime = System.nanoTime();
+                if(endTime - startTime < linkedMinTime){
+                    linkedMinTime = endTime - startTime;
+                }
+
+                startTime = System.nanoTime();
+                array_a = new int[length];
+                endTime = System.nanoTime();
+                if(endTime - startTime < arrayMinTime){
+                    arrayMinTime = endTime - startTime;
+                }
+            }
+            System.out.printf("%13d", length);
+            System.out.printf("%12.2f%12.2f\n", linkedMinTime, arrayMinTime);
+        }
+    }
+
 
     public static int[] appendArray(int[] a, int[] b){
         int length = a.length + b.length;
